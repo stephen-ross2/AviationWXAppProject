@@ -9,7 +9,7 @@ namespace WeatherAppProject
 {
    internal class FormatMetar
     {
-        public static string ExtractWeatherDetails(JsonDocument jsonDocument, string type)
+        public static string ExtractWeatherDetails(JsonDocument jsonDocument, string type) //Method to extract and format the weather details
         {
             var data = jsonDocument.RootElement.GetProperty("data");
             string details = ""; 
@@ -32,7 +32,7 @@ namespace WeatherAppProject
 
             return details;
         }
-        public static string DecodeMetar(JsonElement report)
+        public static string DecodeMetar(JsonElement report) //Method to decode the rawd data in the JSON to a more user friendly format
         {
             string details = "\n\nDecoded METAR Details:";
 

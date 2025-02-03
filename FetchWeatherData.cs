@@ -13,12 +13,12 @@ namespace WeatherAppProject
         public static async Task FetchWeather(string airportCodes)
         {
             string baseUrl = "https://api.checkwx.com";
-            string dataToSave = ""; 
+            string dataToSave = ""; // Initialize an empty string to store the data
 
-            
-            foreach (string code in airportCodes.Split(','))
+
+            foreach (string code in airportCodes.Split(',')) //Loop to go over each individual airport code if multiple codes are provided
             {
-                foreach (string type in new[] { "metar", "taf" })
+                foreach (string type in new[] { "metar", "taf" }) //Loop to fetch METAR and TAF data for each airport code
                 {
                     string endpoint = $"{baseUrl}/{type}/{code}/decoded";
 
@@ -35,14 +35,14 @@ namespace WeatherAppProject
 
                             try
                             {
-                                var jsonDocument = JsonDocument.Parse(responseBody);
-                                var airportData = jsonDocument.RootElement.GetProperty("data")[0];
-                                var station = airportData.GetProperty("station");
-                                var airportName = station.GetProperty("name").GetString();
-                                var location = station.GetProperty("location").GetString();
+                                var jsonDocument = JsonDocument.Parse(responseBody); // Parse the JSON response into a JsonDocument
+                                var airportData = jsonDocument.RootElement.GetProperty("data")[0]; // Get the first element of the "data" array (the airport data)
+                                var station = airportData.GetProperty("station"); // Get the "station" property of the airport data to display in the console
+                                var airportName = station.GetProperty("name").GetString(); // Get the airport name to display in the console
+                                var location = station.GetProperty("location").GetString(); // Get the airport location to display in the console
 
-                                
-                                if (dataToSave == "")                                                   
+
+                                if (dataToSave == "")  //Ensures airport name and location are only displayed once and not in between the METAR and TAF data                                                 
                                     {
                                         Console.ForegroundColor = ConsoleColor.Cyan;
                                     Console.WriteLine($"\n\nAirport: {airportName} - Location: {location}");
@@ -51,7 +51,7 @@ namespace WeatherAppProject
                                 }
 
                                 
-                                string weatherDetails = FormatMetar.ExtractWeatherDetails(jsonDocument, type);
+                                string weatherDetails = FormatMetar.ExtractWeatherDetails(jsonDocument, type); //Calls the ExtractWeatherDetails method from the FormatMetar class to extract and format the weather details
                                 Console.WriteLine(weatherDetails);
                                 dataToSave += weatherDetails; 
 
