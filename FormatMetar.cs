@@ -9,11 +9,10 @@ namespace WeatherAppProject
 {
    internal class FormatMetar
     {
-
         public static string ExtractWeatherDetails(JsonDocument jsonDocument, string type)
         {
             var data = jsonDocument.RootElement.GetProperty("data");
-            string details = ""; // Store the raw and decoded data
+            string details = ""; 
 
             foreach (var report in data.EnumerateArray())
             {
@@ -26,14 +25,13 @@ namespace WeatherAppProject
                 }
                 else if (type == "taf")
                 {
-                    // TAF-specific logic
-                    details += FormatTaf.DecodeTaf(report);  // Process only TAF here, not METAR
+                    
+                    details += FormatTaf.DecodeTaf(report); 
                 }
             }
 
             return details;
         }
-
         public static string DecodeMetar(JsonElement report)
         {
             string details = "\n\nDecoded METAR Details:";
